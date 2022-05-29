@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{add}" method="post" th:object="${productDto}" enctype="multipart/form-data">
+        <input type="hidden" name="id" th:field="*{id}">
+        <input th:id="${_csrf.parameterName}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+        <input name="file" type="file">
+
+        <label for="name">Name:</label>
+        <input id="name" type="text" name="name" th:field="*{name}"> <br>
+
+        <label for="price">Price:</label>
+        <input id="price" type="text" name="price" th:field="*{price}"><br>
+
+        <label for="remaining">Remaining:</label>
+        <input id="remaining" type="text" name="remaining" th:field="*{remaining}"> <br>
+
+        <label for="type">Type:</label>
+        <select name="type" id="type" th:field="*{type}">
+            <option th:each="type : ${types}" th:value="${type.getId()}" th:text="${type.getId()}"></option>
+        </select> <br>
+
+        <label for="description">Description:</label>
+        <textarea id="description"
+                  name="description"
+                  th:field="*{description}"
+                  rows="30" cols="50"></textarea> <br>
+
+        <input id="submit-btn" type="submit" value="Update">
+    </form>
+</body>
+<script>
+    let btn = document.getElementById("submit-btn");
+    btn.addEventListener("click", () => {
+        let formData = new FormData();
+
+        console.log(formData, JSON.stringify(formData));
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Success:', result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
+</html>

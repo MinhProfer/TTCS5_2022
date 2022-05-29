@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Cart</h1>
+    <table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+    </tr>
+    <tr th:each="cartItem : ${cartItems}">
+        <td th:text="${cartItem.product.name}"></td>
+        <td th:text="${cartItem.product.price}"></td>
+        <td th:text="${cartItem.quantity}"></td>
+        <td>
+            <form action="updateQuantity" method="post">
+                <input th:id="${_csrf.parameterName}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                <input type="hidden" name="cartItemID" th:value="${cartItem.id}">
+                <input type=text side=3 name="cartItemQuantity" th:value="${cartItem.quantity}">
+                <input type="submit" value="Update">
+            </form>
+        </td>
+    </tr>
+    </table>
+
+    <button type="button"><a th:href="@{'buy'}">Buy</a> </button>
+</body>
+</html>

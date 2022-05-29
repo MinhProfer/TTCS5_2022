@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop bim bim</title>
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<h1>Products</h1>
+<table>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Remaining</th>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td style="max-width: 200px">
+            <img style="object-position: center; object-fit: cover; width: 50%; height: 50%"
+                 th:src="@{/storage(rid=${product.getImgId()})}" alt="Product img">
+        </td>
+        <td th:text="${product.name}"></td>
+        <td th:text="'$' + ${product.price}"></td>
+        <td th:text="${product.remaining}"></td>
+        <td>
+            <button type="button"> <a th:href="@{'addToCart?productID=' + ${product.id}}">Add to cart</a></button>
+        </td>
+    </tr>
+</table>
+
+<button type="button"><a th:href="@{'cart'}">View cart</a> </button>
+
+</body>
+</html>
